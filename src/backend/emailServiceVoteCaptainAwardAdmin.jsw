@@ -1,0 +1,29 @@
+import { triggeredEmails } from 'wix-crm-backend';
+
+export async function sendAdminEmail(contactId, emailVariables) {
+  try {
+    // Validate the contact ID format
+    if (!contactId || typeof contactId !== 'string') {
+      throw new Error('Invalid contact ID');
+    }
+
+    // Log the contact ID and variables for debugging
+    console.log('Contact ID:', contactId);
+    console.log('Email Variables:', emailVariables);
+
+//&&&&&&&&&&
+    // Send email to the user using a triggered email template
+    const result = await triggeredEmails.emailContact('UP1W1XA', 
+      contactId, // Use the dynamically provided contact ID
+      { variables: emailVariables }  // Ensure variables are passed correctly
+    );
+
+    // Log the result for debugging purposes
+    console.log('Simple email sent:', result);
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Failed to send email');
+  }
+}
